@@ -19,7 +19,7 @@ def add_time(start_time, duration, week_start = "" ):
     duration_minutes = int(duration[1])
 
     # Get day of the week, make it upper-case no matter what the input was
-    week_start = week_start.lower()
+    week_start_lower = week_start.lower()
 
     if time_of_day == "AM":
         mil_start_hours = start_hour
@@ -55,15 +55,19 @@ def add_time(start_time, duration, week_start = "" ):
     norm_final_minutes = mil_final_minutes
 
     # Begine working on the management of days.
-    # Assign days of the week a numerical value. Remember that the week_start is all lower case already. 
-    sunday = 1
-    monday = 2
-    tuesday = 3
-    wednesday = 4
-    thursday = 5
-    friday = 6
-    saturday = 7
-    
+    # Assign days of the week a numerical value in a dictionary. Remember that the week_start is all lower case already. 
+    day_mapping = {
+        'sunday': 1,
+        'monday': 2,
+        'tuesday': 3,
+        'wednesday': 4,
+        'thursday': 5,
+        'friday': 6,
+        'saturday': 7
+    }
+    # Discover what day of the week was supplied if any
+    day_value = day_mapping.get(week_start_lower)
+
 
 
 
@@ -71,6 +75,6 @@ def add_time(start_time, duration, week_start = "" ):
 
 # Testing with print statements. Don't forget to add return statements for the final testing. 
     print(f'Normal final time is {norm_final_hours}:{norm_final_minutes:02d} {final_time_of_day}')
-    print(sunday)
+    print(f"The numerical value for {week_start} is {day_value}.")
 
 add_time("11:30 AM", "2:32", "Monday")

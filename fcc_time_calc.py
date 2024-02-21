@@ -22,10 +22,17 @@ def add_time(start_time, duration, week_start = "" ):
         'friday': 6,
         'saturday': 7
     }
+
+    # Get the actual day of the calculation
+    current_day = (day_mapping['sunday'] + new_day) % 7
     # Get day of the week, make it upper-case no matter what the input was
     week_start_lower = week_start.lower()
     # Discover what day of the week was supplied if any
-    day_value = day_mapping.get(week_start_lower)
+    day_value = day_mapping.get(week_start_lower, 0)
+
+    # Adjust day_value based on the difference between the specified week_start and the actual day
+    day_difference = (day_value - current_day + 7) % 7
+    day_value = (current_day + day_difference) % 7
 
     # Might have to use this later to get python to stop dropping the leading 0
     # formatted_minutes = str(start_minutes).zfill(2) *OR* I can use ":02d" on my variable in the fstring to require at least two decimals
@@ -92,29 +99,43 @@ def add_time(start_time, duration, week_start = "" ):
     norm_final_hours = mil_final_hours % 12 if mil_final_hours % 12 != 0 else 12
     norm_final_minutes = mil_final_minutes
 
-    if mil_final_hours < 12:
+    if mil_final_hours <= 12:
         final_time_of_day = "AM"
+        norm_final_hours = mil_final_hours if mil_final_hours != 0 else 12
     else:
         final_time_of_day = "PM"
+        norm_final_hours = mil_final_hours - 12 if mil_final_hours > 12 else 12
 
     # Determine new day, based on the week_start and new_day counts
     
+    new_day_name = ""
     if week_start:
+        start_day_value = (day_value - new_day) % 7
         new_day_value = (day_value + new_day - 1) % 7 + 1
         new_day_name = [ k for k, v in day_mapping.items() if v == new_day_value][0]
 
-    days_later = ""
+    #days_later = ""
 
     # Check if it's the next day or multiple days later
-    if new_day == 1:
+    # if new_day == 1 or (new_day == 0 and (norm_final_hours == 12 and time_of_day == "PM")):
+    #     days_later = "next day"
+    # elif new_day >= 2:
+    #     days_later = f'{new_day} days later'
+    # else:
+    #     days_later = ""
+
+    if new_day > 0 and norm_final_hours <= 12:
         days_later = "next day"
     elif new_day >= 2:
         days_later = f'{new_day} days later'
+    else:
+        days_later = ""
 
 # Testing with print statements. Don't forget to add return statements for the final testing. 
     print(f'Normal final time is {norm_final_hours}:{norm_final_minutes:02d} {final_time_of_day}')
     print(f"The numerical value for {week_start} is {day_value}.")
     print(f'New day count is {new_day}')
     print(f'The new day is {new_day_name.capitalize()}')
+    print(f'{norm_final_hours}:{norm_final_minutes:02d} {final_time_of_day} ({days_later})')
 
-add_time("6:30 PM", "205:12", "Monday")
+add_time("11:43 PM", "24:20", "tueSday")

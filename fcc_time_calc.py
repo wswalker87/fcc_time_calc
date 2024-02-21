@@ -10,11 +10,9 @@ def add_time(start_time, duration, week_start = "" ):
     start_hour = int(start_time[0])
     start_minutes = int(start_time[1])
 
-    # Begine working on the management of days.
+    # Begin working on the management of days.
     # Assign days of the week a numerical value in a dictionary. Remember that the week_start is all lower case already. 
-    # Get day of the week, make it upper-case no matter what the input was
-    week_start_lower = week_start.lower()
-
+    
     day_mapping = {
         'sunday': 1,
         'monday': 2,
@@ -24,6 +22,8 @@ def add_time(start_time, duration, week_start = "" ):
         'friday': 6,
         'saturday': 7
     }
+    # Get day of the week, make it upper-case no matter what the input was
+    week_start_lower = week_start.lower()
     # Discover what day of the week was supplied if any
     day_value = day_mapping.get(week_start_lower)
 
@@ -34,9 +34,8 @@ def add_time(start_time, duration, week_start = "" ):
     duration = duration.split(":")
     duration_hours = int(duration[0])
     duration_minutes = int(duration[1])
-
     
-
+    # Convert start time to 24-hour format
     if time_of_day == "AM":
         mil_start_hours = start_hour
         mil_start_minutes = start_minutes
@@ -51,22 +50,23 @@ def add_time(start_time, duration, week_start = "" ):
     # Add duration to start time
     mil_final_hours = mil_start_hours + duration_hours
     mil_final_minutes = mil_start_minutes + duration_minutes
-        # Handle any sum of start and duration that goes past midnight, maybe increase a count for new_day here, but I need to think about minutes as well.
-    # Testing a while loop for going past midnight
-    new_day = 0
-    # while mil_final_minutes >= 60 or mil_final_hours >= 24:
-    #     day_minutes_remainder = mil_final_minutes % 60
-    #     mil_final_minutes = 0 + day_minutes_remainder
 
-    #     day_hour_remainder = mil_final_hours % 24
-    #     mil_final_hours = 0
-    #     new_day += 1
-    
-    # new_day += mil_final_hours // 24
-    
-    
-    
-    
+    # Handle any sum of start and duration that goes past midnight, maybe increase a count for new_day here, but I need to think about minutes as well.
+    # Had to move the new_day variable INTO the while loop, as well as have it outside in front of the loop to prevent the increment from not working.
+    new_day += mil_final_hours // 24
+    while mil_final_minutes >= 60 or mil_final_hours >= 24:
+        day_minutes_remainder = mil_final_minutes % 60
+        mil_final_minutes = 0 + day_minutes_remainder
+
+        day_hour_remainder = mil_final_hours % 24
+        mil_final_hours = 0 + day_hour_remainder
+
+        new_day += mil_final_hours // 24
+
+    # Print statements for debugging
+    print(f"Debug: mil_final_hours = {mil_final_hours}, new_day = {new_day}")
+
+    # Handle the odd case
     if mil_final_minutes >= 60: # changed from 59 to 60. Make sure all the use cases pass
         day_minutes_remainder = mil_final_minutes - 60
         mil_final_minutes = 0 + day_minutes_remainder
@@ -77,31 +77,39 @@ def add_time(start_time, duration, week_start = "" ):
         mil_final_hours = 0 + day_hour_remainder
         new_day += 1
 
-    # Convert back to 12 hour time
-    if mil_final_hours >= 0 and mil_final_hours <= 11:
-        final_time_of_day = "AM"
-    elif mil_final_hours >= 12:
-        final_time_of_day = "PM"
-    norm_final_hours = mil_final_hours if mil_final_hours <= 12 else mil_final_hours - 12
+    # # Convert back to 12 hour time
+    # if mil_final_hours >= 0 and mil_final_hours <= 11:
+    #     final_time_of_day = "AM"
+    # elif mil_final_hours >= 12:
+    #     final_time_of_day = "PM"
+    # #norm_final_hours = mil_final_hours if mil_final_hours <= 12 else mil_final_hours - 12
+    #     norm_final_hours = mil_final_hours % 12 if mil_final_hours % 12 != 0 else 12
+    # else:
+    #     final_time_of_day = "AM"
+    #     norm_final_hours = 12
+    # norm_final_minutes = mil_final_minutes
+
+    norm_final_hours = mil_final_hours % 12 if mil_final_hours % 12 != 0 else 12
     norm_final_minutes = mil_final_minutes
+
+    if mil_final_hours < 12:
+        final_time_of_day = "AM"
+    else:
+        final_time_of_day = "PM"
 
     # Determine new day, based on the week_start and new_day counts
     
     if week_start:
         new_day_value = (day_value + new_day - 1) % 7 + 1
         new_day_name = [ k for k, v in day_mapping.items() if v == new_day_value][0]
+
+    days_later = ""
+
+    # Check if it's the next day or multiple days later
     if new_day == 1:
         days_later = "next day"
     elif new_day >= 2:
         days_later = f'{new_day} days later'
-
-
-    
-
-
-
-
-
 
 # Testing with print statements. Don't forget to add return statements for the final testing. 
     print(f'Normal final time is {norm_final_hours}:{norm_final_minutes:02d} {final_time_of_day}')

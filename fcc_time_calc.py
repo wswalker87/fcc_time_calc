@@ -66,12 +66,16 @@ def add_time(start_time, duration, week_start = "" ):
         mil_final_minutes = 0 + day_minutes_remainder
 
         day_hour_remainder = mil_final_hours % 24
-        mil_final_hours = 0 + day_hour_remainder
+        mil_final_hours -= day_hour_remainder
 
         new_day += mil_final_hours // 24
 
+        # This might not work
+        mil_final_hours += mil_final_minutes // 60
+        mil_final_minutes %= 60
+
     # Print statements for debugging
-    print(f"Debug: mil_final_hours = {mil_final_hours}, new_day = {new_day}")
+    #print(f"Debug: mil_final_hours = {mil_final_hours}, new_day = {new_day}")
 
     # Handle the odd case
     if mil_final_minutes >= 60: # changed from 59 to 60. Make sure all the use cases pass
@@ -123,8 +127,8 @@ def add_time(start_time, duration, week_start = "" ):
     #     days_later = f'{new_day} days later'
     # else:
     #     days_later = ""
-
-    if new_day > 0 and norm_final_hours <= 12:
+    
+    if new_day > 0 or (new_day == 0 and (norm_final_hours == 12 and time_of_day == "PM")):
         days_later = "next day"
     elif new_day >= 2:
         days_later = f'{new_day} days later'
@@ -132,10 +136,20 @@ def add_time(start_time, duration, week_start = "" ):
         days_later = ""
 
 # Testing with print statements. Don't forget to add return statements for the final testing. 
-    print(f'Normal final time is {norm_final_hours}:{norm_final_minutes:02d} {final_time_of_day}')
-    print(f"The numerical value for {week_start} is {day_value}.")
+    # print(f'Normal final time is {norm_final_hours}:{norm_final_minutes:02d} {final_time_of_day}')
+    # print(f"The numerical value for {week_start} is {day_value}.")
     print(f'New day count is {new_day}')
-    print(f'The new day is {new_day_name.capitalize()}')
+    # print(f'The new day is {new_day_name.capitalize()}')
     print(f'{norm_final_hours}:{norm_final_minutes:02d} {final_time_of_day} ({days_later})')
 
-add_time("11:43 PM", "24:20", "tueSday")
+add_time("11:43 PM", "24:20", "tueSday") # Should return 12:03 AM, Thursday (2 days later) and actually returns 11:03 PM (next day)
+    
+add_time("6:30 PM", "205:12") # Should return 7:42 AM (9 days later) and actually returns that. 
+    
+add_time("3:00 PM", "3:10") # Should Return: 6:10 PM and actually returns 6:10 PM ().
+
+add_time("11:30 AM", "2:32", "Monday") # Should return 2:02 PM, Monday and actually returns 1:02 PM ()
+
+add_time("11:43 AM", "00:20") # Should return 12:03 PM and actually returns 11:03 AM ()
+
+add_time("10:10 PM", "3:30") # Should return 1:40 AM (next day) and actually returns 1:40 AM (next day)

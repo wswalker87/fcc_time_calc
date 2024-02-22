@@ -61,9 +61,10 @@ def add_time(start_time, duration, week_start = "" ):
     # Handle any sum of start and duration that goes past midnight, maybe increase a count for new_day here, but I need to think about minutes as well.
     # Had to move the new_day variable INTO the while loop, as well as have it outside in front of the loop to prevent the increment from not working.
     new_day += mil_final_hours // 24
-    while mil_final_minutes >= 60 or mil_final_hours >= 24:
-        day_minutes_remainder = mil_final_minutes % 60
-        mil_final_minutes = 0 + day_minutes_remainder
+    #while mil_final_minutes >= 60 or mil_final_hours >= 24:
+    while mil_final_minutes >= 60 or (mil_final_hours == 24 and mil_final_minutes > 0):
+        #day_minutes_remainder = mil_final_minutes % 60
+        #mil_final_minutes = 0 + day_minutes_remainder
 
         day_hour_remainder = mil_final_hours % 24
         mil_final_hours -= day_hour_remainder
@@ -73,6 +74,7 @@ def add_time(start_time, duration, week_start = "" ):
         # This might not work
         mil_final_hours += mil_final_minutes // 60
         mil_final_minutes %= 60
+        #return
 
     # Print statements for debugging
     #print(f"Debug: mil_final_hours = {mil_final_hours}, new_day = {new_day}")
@@ -83,9 +85,14 @@ def add_time(start_time, duration, week_start = "" ):
         mil_final_minutes = 0 + day_minutes_remainder
         mil_final_hours += 1
         
-    if mil_final_hours >= 24: # changed from 25 to 24. Make sure all the use cases pass
+    if mil_final_hours == 24: # changed from 25 to 24. Make sure all the use cases pass
         day_hour_remainder = mil_final_hours - 24
         mil_final_hours = 0 + day_hour_remainder
+        new_day += 1    
+    
+    if mil_final_hours >= 25: # changed from 25 to 24. Make sure all the use cases pass
+        day_hour_remainder = mil_final_hours - 24
+        mil_final_hours = 0 + day_hour_remainder ####This is the problem. Maybe?
         new_day += 1
 
     # # Convert back to 12 hour time
@@ -144,12 +151,12 @@ def add_time(start_time, duration, week_start = "" ):
 
 add_time("11:43 PM", "24:20", "tueSday") # Should return 12:03 AM, Thursday (2 days later) and actually returns 11:03 PM (next day)
     
-add_time("6:30 PM", "205:12") # Should return 7:42 AM (9 days later) and actually returns that. 
+#add_time("6:30 PM", "205:12") # Should return 7:42 AM (9 days later) and actually returns that. 
     
-add_time("3:00 PM", "3:10") # Should Return: 6:10 PM and actually returns 6:10 PM ().
+#add_time("3:00 PM", "3:10") # Should Return: 6:10 PM and actually returns 6:10 PM ().
 
-add_time("11:30 AM", "2:32", "Monday") # Should return 2:02 PM, Monday and actually returns 1:02 PM ()
+#add_time("11:30 AM", "2:32", "Monday") # Should return 2:02 PM, Monday and actually returns 1:02 PM ()
 
-add_time("11:43 AM", "00:20") # Should return 12:03 PM and actually returns 11:03 AM ()
+#add_time("11:43 AM", "00:20") # Should return 12:03 PM and actually returns 11:03 AM ()
 
-add_time("10:10 PM", "3:30") # Should return 1:40 AM (next day) and actually returns 1:40 AM (next day)
+#add_time("10:10 PM", "3:30") # Should return 1:40 AM (next day) and actually returns 1:40 AM (next day)

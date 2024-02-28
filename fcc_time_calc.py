@@ -62,19 +62,27 @@ def add_time(start_time, duration, week_start = "" ):
     # Had to move the new_day variable INTO the while loop, as well as have it outside in front of the loop to prevent the increment from not working.
     new_day += mil_final_hours // 24
     #while mil_final_minutes >= 60 or mil_final_hours >= 24:
-    while mil_final_minutes >= 60 or (mil_final_hours == 24 and mil_final_minutes > 0):
-        #day_minutes_remainder = mil_final_minutes % 60
-        #mil_final_minutes = 0 + day_minutes_remainder
+    # while mil_final_minutes >= 60 or (mil_final_hours == 24 and mil_final_minutes > 0):
+    #     #day_minutes_remainder = mil_final_minutes % 60
+    #     #mil_final_minutes = 0 + day_minutes_remainder
 
-        day_hour_remainder = mil_final_hours % 24
-        mil_final_hours -= day_hour_remainder
+    #     day_hour_remainder = mil_final_hours % 24
+    #     mil_final_hours -= day_hour_remainder
 
-        new_day += mil_final_hours // 24
+    #     new_day += mil_final_hours // 24
 
-        # This might not work
+    #     # This might not work
+    #     mil_final_hours += mil_final_minutes // 60
+    #     mil_final_minutes %= 60
+    #     #return
+    while mil_final_minutes >= 60 or mil_final_hours >= 24:
+        print(f"Debug: mil_final_hours = {mil_final_hours}, mil_final_minutes = {mil_final_minutes}")
         mil_final_hours += mil_final_minutes // 60
         mil_final_minutes %= 60
-        #return
+
+        if mil_final_hours >= 24:
+            new_day += 1
+            mil_final_hours %= 24
 
     # Print statements for debugging
     #print(f"Debug: mil_final_hours = {mil_final_hours}, new_day = {new_day}")
@@ -94,6 +102,12 @@ def add_time(start_time, duration, week_start = "" ):
         day_hour_remainder = mil_final_hours - 24
         mil_final_hours = 0 + day_hour_remainder ####This is the problem. Maybe?
         new_day += 1
+
+    if mil_final_hours == 0: # changed from 25 to 24. Make sure all the use cases pass
+        # day_hour_remainder = mil_final_hours - 24
+        # mil_final_hours = 0 + day_hour_remainder
+        new_day += 1  
+    
 
     # # Convert back to 12 hour time
     # if mil_final_hours >= 0 and mil_final_hours <= 11:
@@ -120,8 +134,10 @@ def add_time(start_time, duration, week_start = "" ):
     # Determine new day, based on the week_start and new_day counts
     
     new_day_name = ""
+    new_day_value = 0
     if week_start:
-        start_day_value = (day_value - new_day) % 7
+        # start_day_value = (day_value - new_day) % 7
+        # new_day_value = (start_day_value + new_day - 1) % 7 + 1
         new_day_value = (day_value + new_day - 1) % 7 + 1
         new_day_name = [ k for k, v in day_mapping.items() if v == new_day_value][0]
 
@@ -135,7 +151,7 @@ def add_time(start_time, duration, week_start = "" ):
     # else:
     #     days_later = ""
     
-    if new_day > 0 or (new_day == 0 and (norm_final_hours == 12 and time_of_day == "PM")):
+    if new_day_value > 0 or (new_day == 0 and (norm_final_hours == 12 and time_of_day == "PM")):
         days_later = "next day"
     elif new_day >= 2:
         days_later = f'{new_day} days later'
@@ -145,18 +161,18 @@ def add_time(start_time, duration, week_start = "" ):
 # Testing with print statements. Don't forget to add return statements for the final testing. 
     # print(f'Normal final time is {norm_final_hours}:{norm_final_minutes:02d} {final_time_of_day}')
     # print(f"The numerical value for {week_start} is {day_value}.")
-    print(f'New day count is {new_day}')
-    # print(f'The new day is {new_day_name.capitalize()}')
+    #print(f'New day count is {new_day}')
+    #print(f'The new day is {new_day_name.capitalize()}')
     print(f'{norm_final_hours}:{norm_final_minutes:02d} {final_time_of_day} ({days_later})')
 
-add_time("11:43 PM", "24:20", "tueSday") # Should return 12:03 AM, Thursday (2 days later) and actually returns 11:03 PM (next day)
+# add_time("11:43 PM", "24:20", "tueSday") # Should return 12:03 AM, Thursday (2 days later) and actually returns 1:03 PM (next day)
     
-#add_time("6:30 PM", "205:12") # Should return 7:42 AM (9 days later) and actually returns that. 
+add_time("6:30 PM", "205:12") # Should return 7:42 AM (9 days later) and actually returns that. 
     
-#add_time("3:00 PM", "3:10") # Should Return: 6:10 PM and actually returns 6:10 PM ().
+# add_time("3:00 PM", "3:10") # Should Return: 6:10 PM and actually returns 6:10 PM ().
 
-#add_time("11:30 AM", "2:32", "Monday") # Should return 2:02 PM, Monday and actually returns 1:02 PM ()
+# add_time("11:30 AM", "2:32", "Monday") # Should return 2:02 PM, Monday and actually returns 1:02 PM ()
 
-#add_time("11:43 AM", "00:20") # Should return 12:03 PM and actually returns 11:03 AM ()
+# add_time("11:43 AM", "00:20") # Should return 12:03 PM and actually returns 11:03 AM ()
 
-#add_time("10:10 PM", "3:30") # Should return 1:40 AM (next day) and actually returns 1:40 AM (next day)
+# add_time("10:10 PM", "3:30") # Should return 1:40 AM (next day) and actually returns 1:40 AM (next day)

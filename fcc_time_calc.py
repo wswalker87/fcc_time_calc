@@ -61,20 +61,7 @@ def add_time(start_time, duration, week_start = "" ):
     # Handle any sum of start and duration that goes past midnight, maybe increase a count for new_day here, but I need to think about minutes as well.
     # Had to move the new_day variable INTO the while loop, as well as have it outside in front of the loop to prevent the increment from not working.
     new_day += mil_final_hours // 24
-    #while mil_final_minutes >= 60 or mil_final_hours >= 24:
-    # while mil_final_minutes >= 60 or (mil_final_hours == 24 and mil_final_minutes > 0):
-    #     #day_minutes_remainder = mil_final_minutes % 60
-    #     #mil_final_minutes = 0 + day_minutes_remainder
-
-    #     day_hour_remainder = mil_final_hours % 24
-    #     mil_final_hours -= day_hour_remainder
-
-    #     new_day += mil_final_hours // 24
-
-    #     # This might not work
-    #     mil_final_hours += mil_final_minutes // 60
-    #     mil_final_minutes %= 60
-    #     #return
+  
     while mil_final_minutes >= 60 or mil_final_hours >= 24:
         print(f"Debug: mil_final_hours = {mil_final_hours}, mil_final_minutes = {mil_final_minutes}")
         mil_final_hours += mil_final_minutes // 60
@@ -107,19 +94,7 @@ def add_time(start_time, duration, week_start = "" ):
         # day_hour_remainder = mil_final_hours - 24
         # mil_final_hours = 0 + day_hour_remainder
         new_day += 1  
-    
-
-    # # Convert back to 12 hour time
-    # if mil_final_hours >= 0 and mil_final_hours <= 11:
-    #     final_time_of_day = "AM"
-    # elif mil_final_hours >= 12:
-    #     final_time_of_day = "PM"
-    # #norm_final_hours = mil_final_hours if mil_final_hours <= 12 else mil_final_hours - 12
-    #     norm_final_hours = mil_final_hours % 12 if mil_final_hours % 12 != 0 else 12
-    # else:
-    #     final_time_of_day = "AM"
-    #     norm_final_hours = 12
-    # norm_final_minutes = mil_final_minutes
+  
 
     norm_final_hours = mil_final_hours % 12 if mil_final_hours % 12 != 0 else 12
     norm_final_minutes = mil_final_minutes
@@ -141,15 +116,7 @@ def add_time(start_time, duration, week_start = "" ):
         new_day_value = (day_value + new_day - 1) % 7 + 1
         new_day_name = [ k for k, v in day_mapping.items() if v == new_day_value][0]
 
-    #days_later = ""
-
     # Check if it's the next day or multiple days later
-    # if new_day == 1 or (new_day == 0 and (norm_final_hours == 12 and time_of_day == "PM")):
-    #     days_later = "next day"
-    # elif new_day >= 2:
-    #     days_later = f'{new_day} days later'
-    # else:
-    #     days_later = ""
     
     if new_day_value > 0 or (new_day == 0 and (norm_final_hours == 12 and time_of_day == "PM")):
         days_later = "next day"

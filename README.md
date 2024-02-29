@@ -6,7 +6,8 @@ This is the second project in a series of five project for the FCC certification
 
 [Link to project guidlines](https://www.freecodecamp.org/learn/scientific-computing-with-python/scientific-computing-with-python-projects/time-calculator)  
 [Description](#description)  
-[Day 2 - Math and 24H time](#2024-02-18)
+[Day 2 - Math and 24H time](#2024-02-18)  
+[Day 3 - Wow, this while loop hates me](#2024-02-28)
 
 ### Description
 

@@ -62,6 +62,7 @@ def add_time(start_time, duration, week_start = "" ):
     # Had to move the new_day variable INTO the while loop, as well as have it outside in front of the loop to prevent the increment from not working.
     new_day += mil_final_hours // 24
   
+ 
     while mil_final_minutes >= 60 or mil_final_hours >= 24:
         print(f"Debug: mil_final_hours = {mil_final_hours}, mil_final_minutes = {mil_final_minutes}")
         mil_final_hours += mil_final_minutes // 60
@@ -113,7 +114,7 @@ def add_time(start_time, duration, week_start = "" ):
     if week_start:
         # start_day_value = (day_value - new_day) % 7
         # new_day_value = (start_day_value + new_day - 1) % 7 + 1
-        new_day_value = (day_value + new_day - 1) % 7 + 1
+        new_day_value = (current_day + new_day) % 7 + 1
         new_day_name = [ k for k, v in day_mapping.items() if v == new_day_value][0]
 
     # Check if it's the next day or multiple days later
@@ -134,7 +135,7 @@ def add_time(start_time, duration, week_start = "" ):
 
 # add_time("11:43 PM", "24:20", "tueSday") # Should return 12:03 AM, Thursday (2 days later) and actually returns 1:03 PM (next day)
     
-add_time("6:30 PM", "205:12") # Should return 7:42 AM (9 days later) and actually returns that. 
+add_time("6:30 PM", "205:12") # Should return 7:42 AM (9 days later) and areturns 7:42 AM (10 Days later). 
     
 # add_time("3:00 PM", "3:10") # Should Return: 6:10 PM and actually returns 6:10 PM ().
 

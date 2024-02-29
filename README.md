@@ -25,3 +25,13 @@ The next step will be to work out the days. I am thinking that I can assign each
 **I just discovered through accident, that I can use 1, 2, or 3 `backticks` in markdown to highlight code**
 
 I am also realizing that this would be so much easier if I could import a library, but it is fun to work it out myself. I barely had to google anything this go.
+
+### 2024-02-28
+
+Been a minute since I could get in and mess with this. I was having an issue where I though my computer was ~~fucked~~ limited. I kept running my program and nothing happened. What I ended up finding when I moved to my work laptop was that VSC was stuck in a while loop.
+
+I got out of the while loop and I am mostly there. I have the times printing almost all correctly. I am still trying to fix the day count. It is one day high and I need to figure out why. After that I need to fix the portion that prints, so that if a third paramter is **NOT** passed, I don't print/return a pair of blank parentheses.
+
+DON'T FORGET TO CHANGE THE PRINT STATEMENTS TO RETURN STATEMENTS FOR THE UNIT TESTING!!
+
+In the words of Skeletor...Until we meet again!

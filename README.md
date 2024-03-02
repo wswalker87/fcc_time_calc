@@ -4,10 +4,13 @@
 
 This is the second project in a series of five project for the FCC certification in Scientific Computing with Python.
 
-[Link to project guidlines](https://www.freecodecamp.org/learn/scientific-computing-with-python/scientific-computing-with-python-projects/time-calculator)  
-[Description](#description)  
+[Link to project guidlines](https://www.freecodecamp.org/learn/scientific-computing-with-python/scientific-computing-with-python-projects/time-calculator)
+
+[Description](#description)
+
 [Day 2 - Math and 24H time](#2024-02-18)  
-[Day 3 - Wow, this while loop hates me](#2024-02-28)
+[Day 3 - Wow, this while loop hates me](#2024-02-28)  
+[Day 4 - Finally finished](#2024-03-01)
 
 ### Description
 
@@ -36,3 +39,14 @@ I got out of the while loop and I am mostly there. I have the times printing alm
 DON'T FORGET TO CHANGE THE PRINT STATEMENTS TO RETURN STATEMENTS FOR THE UNIT TESTING!!
 
 In the words of Skeletor...Until we meet again!
+
+### 2024-03-01
+
+**OMG**
+I have taken so long that FreeCodeCamp updated the test and I had more edge cases to deal with. Ugh.
+
+So I was able to eventually figure this out. My biggest issue was that I would get one use case working and another would fail. Once I got all the times to work, the day iteration would fail. Then I got it all working and I had to create some if statements to determine what parameters were passed and based off that print different return statements. I am 100% sure there is a better way to do it, but I am so over this project. I learned A LOT though. I can't wait to use a library.
+
+If I had to do this again, I think instead of using 24H time I would convert everything to minutes, add the duration, and then do the math to break it back down into days and hours. I also attempted to psuedo-code this one, without much luck. I did end up making a "truth" table to help figure out my return statements.
+
+I'm over it. Budget app is next.
